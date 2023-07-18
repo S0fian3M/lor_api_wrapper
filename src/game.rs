@@ -1,6 +1,9 @@
 use lor_api_wrapper::card::Card;
 use lor_api_wrapper::deck::Deck;
 
+/**
+* A rectangle is how cards are represented in the local API.
+*/
 struct Rectangle {
     card_id: i32,
     card_code: Option<String>,
@@ -42,6 +45,9 @@ impl std::fmt::Debug for Rectangle {
     }
 }
 
+/**
+* Screen
+*/
 struct Screen {
     width: i32,
     height: i32,
@@ -99,6 +105,9 @@ impl GameFrame {
     }
 }
 
+/**
+* A game of LoR, between 2 players, with 2 decks, their cards and a result.
+*/
 struct Game {
     player: String,
     opponent: String,
@@ -142,6 +151,9 @@ impl Game {
     }
 }
 
+/**
+* Expedition state deals with the expedition mode.
+*/
 struct ExpeditionState {
     is_active: bool,
     state: String,

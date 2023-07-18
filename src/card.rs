@@ -2,6 +2,9 @@ use std::path::Path;
 use serde::Deserialize;
 use serde_json::Value;
 
+/**
+* A card with its metadata.
+*/
 struct Card {
     id: Option<String>,
     card_code: String,

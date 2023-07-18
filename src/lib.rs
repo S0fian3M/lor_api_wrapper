@@ -2,6 +2,9 @@ use std::error::Error;
 use reqwest::blocking::{get, Response};
 use log::info;
 
+/**
+* Wrapper about the current game status.
+*/
 #[derive(Debug)]
 pub struct GameStatus {
     game_id: i32,
@@ -37,6 +40,9 @@ impl GameStatus {
     }
 }
 
+/**
+* LoR local Client API.
+*/
 pub struct LoRClient {
     baseurl: String,
     api_key: String,

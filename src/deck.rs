@@ -5,6 +5,9 @@ use std::io::Write;
 use std::path::Path;
 use lor_api_wrapper::Card;
 
+/**
+* A deck is a pile of cards, some ids and a win rate.
+*/
 struct Deck {
     cards: Vec<(Card, i32)>,
     deck_code: Option<String>,
