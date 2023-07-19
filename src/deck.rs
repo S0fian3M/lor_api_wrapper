@@ -41,3 +41,9 @@ impl Deck {
         }
     }
 }
+
+impl PartialEq for Card {
+    fn eq(&self, other: &Self) -> bool {
+        self.deck_code == other.deck_code
+    }
+}

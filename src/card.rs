@@ -1,51 +1,56 @@
-use std::path::Path;
-use serde::Deserialize;
 use serde_json::Value;
+use serde::{Serialize, Deserialize};
 
 /**
 * A card with its metadata.
 */
-struct Card {
-    id: Option<String>,
-    card_code: String,
-    card_set: u32,
-    count: u32,
-    _card_data: Value,
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Card {
+    associated_cards: Option<Vec<String>>,
+    associated_card_refs: Option<Vec<String>>,
+    assets: Option<Vec<Asset>>,
+    regions: Option<Vec<String>>,
+    region_refs: Option<Vec<String>>,
+    attack: Option<u32>,
+    cost: Option<u32>,
+    health: Option<u32>,
+    description: Option<String>,
+    description_raw: Option<String>,
+    levelup_description: Option<String>,
+    levelup_description_raw: Option<String>,
+    flavor_text: Option<String>,
+    artist_name: Option<String>,
+    name: Option<String>,
+    card_code: Option<String>,
+    keywords: Option<Vec<String>>,
+    keyword_refs: Option<Vec<String>>,
+    spell_speed: Option<String>,
+    spell_speed_ref: Option<String>,
+    rarity: Option<String>,
+    rarity_ref: Option<String>,
+    subtypes: Option<Vec<String>>,
+    supertype: Option<String>,
+    card_type: Option<String>,
+    collectible: Option<bool>,
+    set: Option<String>,
+    formats: Option<Vec<String>>,
+    format_refs: Option<Vec<String>>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Asset {
+    game_absolute_path: Option<String>,
+    full_absolute_path: Option<String>,
 }
 
 impl Card {
-    fn new(card: Option<&str>, kwargs: &[(&str, Value)]) -> Self {
-        let card_code = match card {
-            Some(code) => code.to_string(),
-            None => kwargs.iter().find_map(|(key, value)| {
-                if key == &"CardCode" {
-                    value.as_str().map(str::to_string)
-                } else {
-                    None
-                }
-            }).unwrap_or_else(String::new),
-        };
-        let card_set = card_code[..2].parse().unwrap_or(0);
-        let count = kwargs.iter().find_map(|(key, value)| {
-            if key == &"count" {
-                value.as_u64().map(|count| count as u32)
-            } else {
-                None
-            }
-        }).unwrap_or(1);
-        let _card_data = Self::card_info(&cards, &card_code);
-        Self {
-            id: None,
-            card_code,
-            card_set,
-            count,
-            _card_data,
-        }
+    pub fn new(card_as_json: Value) -> Self {
+        serde_json::from_value(card_as_json).unwrap()
     }
 
-    fn card_info(cards: &[Value], card_code: &str) -> Value {
+    pub fn card_info(cards: &[Value], card_code: &str) -> Value {
         cards.iter()
-            .find(|card| card["cardCode"] == card_code)
+            .find(|card| card["card_code"] == card_code)
             .unwrap_or(&Value::Null)
             .clone()
     }
@@ -53,26 +58,14 @@ impl Card {
 
 impl std::fmt::Display for Card {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        if let Some(cost) = self.cost() {
-            write!(f, "({}) ", cost)?;
-        }
-        if let Some(name) = self.name() {
-            write!(f, "{}: ", name)?;
-        }
-        if let Some(description) = self.description() {
-            write!(f, "{}", description)?;
-        }
+        write!(
+            f, 
+            "({}) {}: {}", 
+            self.cost.unwrap_or(0), 
+            self.name.as_ref().unwrap_or(&"".to_string()), 
+            self.description.as_ref().unwrap_or(&"".to_string())
+        )?;
         Ok(())
-    }
-}
-
-impl std::fmt::Debug for Card {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        if let Some(name) = self.name() {
-            write!(f, "Card({}, Name: {}, Cost: {})", self.card_code, name, self.cost().unwrap_or(0))
-        } else {
-            write!(f, "Card({}, Cost: {})", self.card_code, self.cost().unwrap_or(0))
-        }
     }
 }
 

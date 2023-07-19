@@ -546,6 +546,7 @@ dependencies = [
  "log",
  "log4rs",
  "reqwest",
+ "serde",
  "serde_json",
 ]
 
