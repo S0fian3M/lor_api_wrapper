@@ -21,7 +21,7 @@ pub struct Card {
     flavor_text: Option<String>,
     artist_name: Option<String>,
     name: Option<String>,
-    card_code: Option<String>,
+    pub card_code: Option<String>,
     keywords: Option<Vec<String>>,
     keyword_refs: Option<Vec<String>>,
     spell_speed: Option<String>,

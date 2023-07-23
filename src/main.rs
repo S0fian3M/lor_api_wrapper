@@ -7,6 +7,9 @@ use std::path::Path;
 use lor_api_wrapper::{GameStatus, LoRClient};
 mod utils;
 mod card;
+mod deck;
+use deck::Deck;
+use card::Card;
 
 fn test_game_status() {
     let api_key = "your_api_key".to_string(); // TODO: .env file
@@ -55,7 +58,10 @@ fn main() {
     log4rs::init_config(config).unwrap();
 
     let all_cards: serde_json::Value = utils::read_json_file(Path::new("./data/set7b-en_us.json")).unwrap();
-    let first_card: card::Card = card::Card::new(all_cards[0].clone());
-    println!("{:?}", first_card);
+    let mut cards_vec: Vec<Card> = Vec::new();
+    for i in 0..40 {
+        cards_vec.push(Card::new(all_cards[0].clone()));
+    }
+    let new_deck: Deck = Deck::new(cards_vec, 0, 0);
     test_game_status();
 }
