@@ -133,6 +133,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e496a50fda8aacccc86d7529e2c1e0892dbd0f898a6b5645b5561b89c3210efa"
 
 [[package]]
+name = "data-encoding"
+version = "2.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c2e66c9d817f1720209181c316d28635c050fa304f9c79e47a520882661b7308"
+
+[[package]]
 name = "derivative"
 version = "2.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -545,9 +551,23 @@ version = "0.1.0"
 dependencies = [
  "log",
  "log4rs",
+ "lordeckcodes",
  "reqwest",
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "lordeckcodes"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "96699876926c6302830be411f86aa91cb05fc9550ff82e505b52ba159c220364"
+dependencies = [
+ "data-encoding",
+ "lazy_static",
+ "serde",
+ "thiserror",
+ "varint-rs",
 ]
 
 [[package]]
@@ -1176,6 +1196,12 @@ dependencies = [
  "idna",
  "percent-encoding",
 ]
+
+[[package]]
+name = "varint-rs"
+version = "2.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8f54a172d0620933a27a4360d3db3e2ae0dd6cceae9730751a036bbf182c4b23"
 
 [[package]]
 name = "vcpkg"
