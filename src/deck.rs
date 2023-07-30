@@ -34,6 +34,31 @@ impl Deck {
             losses,
         }
     }
+
+    pub fn regions(&self) -> Vec<String> {
+        // Extract regions from cards
+        let card_regions: Vec<Vec<String>> = self.cards.keys().map(|card| &card.regions.unwrap()).collect();
+
+        // Count the occurrences of each region
+        let mut region_count: HashMap<&String, usize> = HashMap::new();
+        for region in card_regions.iter() {
+            *region_count.entry(region).or_insert(0) += 1;
+        }
+
+        // Sort regions by frequency and take the top 2
+        let mut card_regions_descending: Vec<(&&String, &usize)> = region_count.iter().collect();
+        card_regions_descending.sort_by(|a, b| b.1.cmp(a.1));
+        card_regions_descending.truncate(2);
+
+        // Extract the region names and return them as Vec<String>
+        let regions: Vec<String> = card_regions_descending.iter().map(|(region, _)| (*region).to_string()).collect();
+        regions
+    }
+
+    pub fn get_champions(&self) -> Vec<&Card> {
+        // Filter champions from cards and extract their names
+        self.cards.keys().filter(|card| card.rarity.unwrap() == "Champion").collect()
+    }
 }
 
 impl PartialEq for Deck {
