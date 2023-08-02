@@ -1,6 +1,9 @@
 use reqwest;
 use serde::{Deserialize, Serialize};
 
+/**
+* Download card set online.
+*/
 fn get_card_set_online(set_number: i32, region: &str, lite: bool) -> Result<serde_json::Value, reqwest::Error> {
     let url = if lite {
         format!(
@@ -18,7 +21,9 @@ fn get_card_set_online(set_number: i32, region: &str, lite: bool) -> Result<serd
     Ok(response.json()?)
 }
 
-// Function to get lor globals
+/**
+* Function to get lor globals.
+*/
 fn get_globals_online(region: &str) -> Result<serde_json::Value, reqwest::Error> {
     let url = format!(
         "https://dd.b.pvp.net/latest/core/{}/data/globals-{}.zip",

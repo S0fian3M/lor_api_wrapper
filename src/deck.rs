@@ -14,6 +14,9 @@ pub struct Deck {
 }
 
 impl Deck {
+    /**
+    * Create a new deck.
+    */
     pub fn new(cards: Vec<Card>, wins: i16, losses: i16) -> Self {
         let mut cards_in_deck = HashMap::new();
         for card in cards {
@@ -35,6 +38,9 @@ impl Deck {
         }
     }
 
+    /**
+    * Get the 2 regions of the deck.
+    */
     pub fn regions(&self) -> Vec<String> {
         // Extract regions from cards
         let card_regions: Vec<Vec<String>> = self.cards.keys().map(|card| &card.regions.unwrap()).collect();
@@ -55,6 +61,9 @@ impl Deck {
         regions
     }
 
+    /**
+    * Get the list of Champions cards.
+    */
     pub fn get_champions(&self) -> Vec<&Card> {
         // Filter champions from cards and extract their names
         self.cards.keys().filter(|card| card.rarity.unwrap() == "Champion").collect()

@@ -65,6 +65,9 @@ impl Screen {
     }
 }
 
+/**
+* Game frame from local API.
+*/
 struct GameFrame {
     player: String,
     opponent: String,
@@ -74,6 +77,9 @@ struct GameFrame {
 }
 
 impl GameFrame {
+    /**
+    * Create a new game frame.
+    */
     fn new(game_frame_informations: &std::collections::HashMap<String, serde_json::Value>) -> Self {
         let player = game_frame_informations.get("PlayerName").and_then(|name| name.as_str()).unwrap_or("The Man With No Name").to_owned();
         let opponent = game_frame_informations.get("OpponentName").and_then(|name| name.as_str()).unwrap_or("The Man With No Name").to_owned();
@@ -91,15 +97,24 @@ impl GameFrame {
         }
     }
     
+    /**
+    * Parse rectangles values from the local API.
+    */
     fn parse_rectangles(rectangles: &Vec<serde_json::Value>) -> Vec<Rectangle> {
         let rects = rectangles.iter().filter(|rect| rect["CardCode"] != "face");
         rects.map(|rect| Rectangle::new(rect.as_object().unwrap())).collect()
     }
     
+    /**
+    * Get local player rectangles.
+    */
     fn player_rects(&self) -> Vec<&Rectangle> {
         self.rectangles.iter().filter(|rect| rect.is_local_player.unwrap_or(false)).collect()
     }
     
+    /**
+    * Get opponent player rectangles.
+    */
     fn opponent_rects(&self) -> Vec<&Rectangle> {
         self.rectangles.iter().filter(|rect| !rect.is_local_player.unwrap_or(true)).collect()
     }
@@ -133,6 +148,9 @@ impl Game {
         }
     }
     
+    /**
+    * Process a new game frame.
+    */
     fn process_frame(&mut self, frame: &GameFrame) {
         for rect in frame.player_rects() {
             if !self.player_cards_used.cards.iter().any(|card| card.id == rect.card_id) {
@@ -166,6 +184,9 @@ struct ExpeditionState {
 }
 
 impl ExpeditionState {
+    /**
+    * Create a new Expedition State.
+    */
     fn new(expedition_state_informations: &std::collections::HashMap<String, serde_json::Value>) -> Self {
         let is_active = expedition_state_informations.get("IsActive").and_then(|active| active.as_bool()).unwrap_or(false);
         let state = expedition_state_informations.get("State").and_then(|s| s.as_str()).unwrap_or("Inactive").to_owned();
