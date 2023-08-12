@@ -16,6 +16,9 @@ impl GameStatus {
         GameStatus { game_id, is_winner }
     }
 
+    /**
+    * Return game status (win, loss or empty).
+    */
     pub fn result(&self) -> &str {
         if self.game_id == -1 {
             "No games played"
@@ -26,6 +29,9 @@ impl GameStatus {
         }
     }
 
+    /**
+    * Serialize the game status.
+    */ 
     pub fn serialize(&self, to_dict: bool) -> String {
         let data = serde_json::json!({
             "game_id": self.game_id,
@@ -61,6 +67,9 @@ impl LoRClient {
         }
     }
 
+    /**
+    * Get local API endpoint.
+    */
     pub fn get_endpoint(&self, endpoint: &str) -> Result<serde_json::Value, Box<dyn Error>> {
         let url = format!("{}/{}", self.baseurl, endpoint);
         info!("Getting {}", endpoint);

@@ -47,13 +47,6 @@ impl Card {
     pub fn new(card_as_json: Value) -> Self {
         serde_json::from_value(card_as_json).unwrap()
     }
-
-    pub fn card_info(cards: &[Value], card_code: &str) -> Value {
-        cards.iter()
-            .find(|card| card["card_code"] == card_code)
-            .unwrap_or(&Value::Null)
-            .clone()
-    }
 }
 
 impl std::fmt::Display for Card {

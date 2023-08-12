@@ -22,7 +22,7 @@ fn get_card_set_online(set_number: i32, region: &str, lite: bool) -> Result<serd
 }
 
 /**
-* Function to get lor globals.
+* Get LOR globals from online API.
 */
 fn get_globals_online(region: &str) -> Result<serde_json::Value, reqwest::Error> {
     let url = format!(
